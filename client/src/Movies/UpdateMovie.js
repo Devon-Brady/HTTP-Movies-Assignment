@@ -18,7 +18,7 @@ useEffect(() => {
 },[])
    console.log(mov)
    const handleChange = (e)=> {
-    e.persist();
+    // e.persist();
      setMov({...mov,[e.target.name]:e.target.value})
    }
    const handleSubmit = (e)=>{
@@ -26,7 +26,7 @@ useEffect(() => {
         axios
         .put(`http://localhost:5000/api/movies/${id}`,mov)
         .then(res => {
-            console.log(res);
+            // console.log(res);
             push(`/movies/${id}`) 
         })
         .catch(err =>{
@@ -36,6 +36,7 @@ useEffect(() => {
    }
 
     return (
+        <div>
         <form onSubmit={handleSubmit}>
             <label htmlFor='title'>Movie Title
                 <input type='text' name='title' value={mov.title} onChange={handleChange}/>
@@ -44,7 +45,10 @@ useEffect(() => {
                 <input type='text' name='director' value={mov.director} onChange={handleChange}/>
             </label>
             <button>Submit</button>
+            
         </form>
+        
+        </div>
     )
 }
 export default UpdateMovie
