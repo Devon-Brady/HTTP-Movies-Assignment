@@ -9,35 +9,37 @@ import UpdateMovie from './Movies/UpdateMovie'
 const App = () => {
   const [savedList, setSavedList] = useState([]);
   const [movieList, setMovieList] = useState([]);
-
-  const getMovieList = () => {
-    axios
-      .get("http://localhost:5000/api/movies")
-      .then(res => setMovieList(res.data))
-      .catch(err => console.log(err.response));
-  };
+const [updateMovieList, setUpdateMovieList] = useState(true)
+  
+    
+ 
 
   const addToSavedList = movie => {
     setSavedList([...savedList, movie]);
   };
-
+  console.log('this is movie list',movieList)
   useEffect(() => {
-    getMovieList();
-  }, []);
+   axios
+      .get("http://localhost:5000/api/movies")
+      .then(res => setMovieList(res.data))
+      .catch(err => console.log(err.response));
+  }, [updateMovieList]);
 
   return (
     <>
       <SavedList list={savedList} />
 
-      <Route exact path="/">
-        <MovieList movies={movieList} />
-      </Route>
+      <Route exact path="/"
+      render={()=> <MovieList movies={movieList}/>}/>
+    
+      
 
       <Route path="/movies/:id">
-        <Movie addToSavedList={addToSavedList} />
+        <Movie updateMovieList={updateMovieList} setUpdateMovieList={setUpdateMovieList} addToSavedList={addToSavedList} />
       </Route>
+
       <Route path='/update-movie/:id'
-      render={()=> <UpdateMovie movies={movieList}/>}/>
+      render={()=> <UpdateMovie  movies={movieList}/>}/>
     </>
   );
 };
